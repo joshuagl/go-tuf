@@ -13,7 +13,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    uses: joshuagl/slsa-github-generator-go/.github/workflows/builder.yml@joshuagl/feat/osrelease # TODO: use hash upon release.
+    uses: joshuagl/slsa-github-generator-go/.github/workflows/builder.yml@7e98401e82ef0dca38e1606573bf187a01ba1612 # TODO: use hash upon release.
     with:
       go-version: 1.17
 
