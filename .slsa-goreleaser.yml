@@ -1,0 +1,19 @@
+version: 1
+env:
+  - GO111MODULE=on
+  # https://stackoverflow.com/a/62821358/19407
+  - CGO_ENABLED=0
+
+flags:
+  - -trimpath
+  - -mod=readonly
+
+#TODO:
+#mod_timestamp: '{{ .CommitTimestamp }}'
+goos: linux
+goarch: amd64
+binary: tuf-{{ .OS }}-{{ .Arch }}
+ldflags:
+  - "-s -w"
+  - "-extldflags=-zrelro"
+  - "-extldflags=-znow"
