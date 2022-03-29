@@ -6,7 +6,7 @@ env:
 
 flags:
   - -trimpath
-  - -mod=readonly
+  # - -mod=readonly
 
 #TODO:
 #mod_timestamp: '{{ .CommitTimestamp }}'
