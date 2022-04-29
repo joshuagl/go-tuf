@@ -15,7 +15,7 @@ jobs:
     uses: joshuagl/slsa-github-generator-go/.github/workflows/slsa3_builder.yml@main # TODO: use hash upon release.
     with:
       go-version: 1.18
-      config-file: ./slsa-goreleaser-client.yml
+      config-file: .slsa-goreleaser-client.yml
 
   build-repo:
     permissions:
@@ -24,4 +24,4 @@ jobs:
     uses: joshuagl/slsa-github-generator-go/.github/workflows/slsa3_builder.yml@main # TODO: use hash upon release.
     with:
       go-version: 1.18
-      config-file: ./slsa-goreleaser-repo.yml
+      config-file: .slsa-goreleaser-repo.yml
