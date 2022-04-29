@@ -12,7 +12,11 @@ flags:
 #mod_timestamp: '{{ .CommitTimestamp }}'
 goos: linux
 goarch: amd64
+
+main: ./cmd/tuf/main.go
+
 binary: tuf-{{ .Os }}-{{ .Arch }}
+
 ldflags:
   - "-s -w"
   - "-extldflags=-zrelro"

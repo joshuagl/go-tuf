@@ -8,32 +8,20 @@ on:
 permissions: read-all
       
 jobs:
-  # Trusted builder.
-  build:
+  build-client:
     permissions:
       id-token: write
       contents: write
     uses: joshuagl/slsa-github-generator-go/.github/workflows/slsa3_builder.yml@main # TODO: use hash upon release.
     with:
       go-version: 1.18
+      config-file: ./slsa-goreleaser-client.yml
 
-  # Upload to GitHub release.
-  upload:
+  build-repo:
     permissions:
+      id-token: write
       contents: write
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/download-artifact@fb598a63ae348fa914e94cd0ff38f362e927b741
-        with:
-          name: ${{ needs.build.outputs.go-binary-name }}
-      - uses: actions/download-artifact@fb598a63ae348fa914e94cd0ff38f362e927b741
-        with:
-          name: ${{ needs.build.outputs.go-binary-name }}.intoto.jsonl
-      - name: Release
-        uses: softprops/action-gh-release@1e07f4398721186383de40550babbdf2b84acfc5
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: |
-            ${{ needs.build.outputs.go-binary-name }}
-            ${{ needs.build.outputs.go-binary-name }}.intoto.jsonl
+    uses: joshuagl/slsa-github-generator-go/.github/workflows/slsa3_builder.yml@main # TODO: use hash upon release.
+    with:
+      go-version: 1.18
+      config-file: ./slsa-goreleaser-repo.yml
