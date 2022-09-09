@@ -654,7 +654,7 @@ func (c *Client) downloadMetaFromTimestamp(name string, m data.TimestampFileMeta
 		return nil, err
 	}
 
-	// 5.2.2. – Check length and hashes of fetched bytes *before* parsing metadata
+	// 5.5.2. – Check length and hashes of fetched bytes *before* parsing metadata
 	if err := util.BytesMatchLenAndHashes(b, m.Length, m.Hashes); err != nil {
 		return nil, ErrDownloadFailed{name, err}
 	}
