@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"path"
 	"sort"
 	"strings"
@@ -91,7 +92,7 @@ func (r *Repo) Init(consistentSnapshot bool) error {
 		return err
 	}
 
-	fmt.Println("Repository initialized")
+	log.Println("Repository initialized")
 	return nil
 }
 
@@ -533,7 +534,7 @@ func (r *Repo) RevokeKeyWithExpires(keyRole, id string, expires time.Time) error
 
 	err = r.setMeta("root.json", root)
 	if err == nil {
-		fmt.Println("Revoked", keyRole, "key with ID", id, "in root metadata")
+		log.Println("Revoked", keyRole, "key with ID", id, "in root metadata")
 	}
 	return err
 }
@@ -783,7 +784,7 @@ func (r *Repo) Sign(roleFilename string) error {
 	r.meta[roleFilename] = b
 	err = r.local.SetMeta(roleFilename, b)
 	if err == nil {
-		fmt.Println("Signed", roleFilename, "with", numKeys, "key(s)")
+		log.Println("Signed", roleFilename, "with", numKeys, "key(s)")
 	}
 	return err
 }
@@ -1223,7 +1224,7 @@ func (r *Repo) removeTargetsWithExpiresFromMeta(metaName string, paths []string,
 		for _, path := range paths {
 			path = util.NormalizeTarget(path)
 			if _, ok := t.Targets[path]; !ok {
-				fmt.Printf("[%v] The following target is not present: %v\n", metaName, path)
+				log.Printf("[%v] The following target is not present: %v\n", metaName, path)
 				continue
 			}
 			removed = true
@@ -1243,17 +1244,17 @@ func (r *Repo) removeTargetsWithExpiresFromMeta(metaName string, paths []string,
 
 	err = r.setMeta(metaName, t)
 	if err == nil {
-		fmt.Printf("[%v] Removed targets:\n", metaName)
+		log.Printf("[%v] Removed targets:\n", metaName)
 		for _, v := range removed_targets {
-			fmt.Println("*", v)
+			log.Println("*", v)
 		}
 		if len(t.Targets) != 0 {
-			fmt.Printf("[%v] Added/staged targets:\n", metaName)
+			log.Printf("[%v] Added/staged targets:\n", metaName)
 			for k := range t.Targets {
-				fmt.Println("*", k)
+				log.Println("*", k)
 			}
 		} else {
-			fmt.Printf("[%v] There are no added/staged targets\n", metaName)
+			log.Printf("[%v] There are no added/staged targets\n", metaName)
 		}
 	}
 	return err
@@ -1307,7 +1308,7 @@ func (r *Repo) SnapshotWithExpires(expires time.Time) error {
 	}
 	err = r.setMeta("snapshot.json", snapshot)
 	if err == nil {
-		fmt.Println("Staged snapshot.json metadata with expiration date:", snapshot.Expires)
+		log.Println("Staged snapshot.json metadata with expiration date:", snapshot.Expires)
 	}
 	return err
 }
@@ -1339,7 +1340,7 @@ func (r *Repo) TimestampWithExpires(expires time.Time) error {
 
 	err = r.setMeta("timestamp.json", timestamp)
 	if err == nil {
-		fmt.Println("Staged timestamp.json metadata with expiration date:", timestamp.Expires)
+		log.Println("Staged timestamp.json metadata with expiration date:", timestamp.Expires)
 	}
 	return err
 }
@@ -1505,7 +1506,7 @@ func (r *Repo) Commit() error {
 
 	err = r.local.Commit(root.ConsistentSnapshot, versions, hashes)
 	if err == nil {
-		fmt.Println("Committed successfully")
+		log.Println("Committed successfully")
 	}
 	return err
 }
@@ -1513,7 +1514,7 @@ func (r *Repo) Commit() error {
 func (r *Repo) Clean() error {
 	err := r.local.Clean()
 	if err == nil {
-		fmt.Println("Removed all staged metadata and target files")
+		log.Println("Removed all staged metadata and target files")
 	}
 	return err
 }
